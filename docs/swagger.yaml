@@ -1,0 +1,115 @@
+basePath: /
+definitions:
+  models.Location:
+    properties:
+      message:
+        type: string
+      position:
+        properties:
+          x:
+            type: number
+          "y":
+            type: number
+        type: object
+    type: object
+  models.Satellite:
+    properties:
+      Distance:
+        example: 100
+        type: number
+      Message:
+        items:
+          type: string
+        type: array
+      Name:
+        example: kenobi
+        type: string
+    type: object
+  models.Satellites:
+    properties:
+      Satellites:
+        items:
+          $ref: '#/definitions/models.Satellite'
+        type: array
+    type: object
+host: localhost:3000
+info:
+  contact:
+    email: soberkoder@swagger.io
+    name: API Support
+  description: Manage satellite messages and calculate the location of the spacecraft
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Secret positioning API
+  version: "1.0"
+paths:
+  /topsecret:
+    post:
+      consumes:
+      - application/json
+      description: Determine the location of the spacecraft using the data sent
+      parameters:
+      - description: information messages from satellites
+        in: body
+        name: satellites
+        required: true
+        schema:
+          $ref: '#/definitions/models.Satellites'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Location'
+        "404": {}
+      summary: Determine the location of the spaceship
+      tags:
+      - topsecret
+  /topsecret_split:
+    get:
+      consumes:
+      - application/json
+      description: Determine the location of the spacecraft using the data sent
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Location'
+        "404": {}
+      summary: Determine the location of the spaceship
+      tags:
+      - topsecret_split
+  /topsecret_split/{satellite_name}:
+    post:
+      consumes:
+      - application/json
+      description: Records a satellite message in memory to calculate the location of the spacecraft later
+      parameters:
+      - description: satellite name
+        in: path
+        name: satellite_name
+        required: true
+        type: string
+      - description: infomation message satellite
+        in: body
+        name: satellite
+        required: true
+        schema:
+          $ref: '#/definitions/models.Satellite'
+      produces:
+      - application/json
+      responses:
+        "202":
+          description: Accepted
+          schema:
+            type: string
+        "404": {}
+      summary: Records a satellite message in memory
+      tags:
+      - topsecret_split
+swagger: "2.0"

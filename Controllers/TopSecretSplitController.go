@@ -13,7 +13,19 @@ import (
 	services "github.com/jgleon/topsecret/Services"
 )
 
+// AddTopSecretSplit godoc
+// @Summary Records a satellite message in memory
+// @Description Records a satellite message in memory to calculate the location of the spacecraft later
+// @Tags topsecret_split
+// @Accept  json
+// @Produce  json
+// @Param satellite_name path string true "satellite name"
+// @Param satellite body models.Satellite true "infomation message satellite"
+// @Success 202 {string} string ""
+// @Failure 404
+// @Router /topsecret_split/{satellite_name} [post]
 func AddTopSecretSplit(w http.ResponseWriter, req *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	params := mux.Vars(req)
 	var satellite models.Satellite
 	var satellities []models.Satellite
@@ -32,6 +44,15 @@ func AddTopSecretSplit(w http.ResponseWriter, req *http.Request) {
 	w.WriteHeader(http.StatusAccepted)
 }
 
+// GetTopSecretSplit godoc
+// @Summary Determine the location of the spaceship
+// @Description Determine the location of the spacecraft using the data sent
+// @Tags topsecret_split
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} models.Location
+// @Failure 404
+// @Router /topsecret_split [get]
 func GetTopSecretSplit(w http.ResponseWriter, req *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	repo := repository.GetInstace()
