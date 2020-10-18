@@ -1,5 +1,15 @@
 basePath: /
 definitions:
+  models.InfoSatellite:
+    properties:
+      Distance:
+        example: 100
+        type: number
+      Message:
+        items:
+          type: string
+        type: array
+    type: object
   models.Location:
     properties:
       message:
@@ -97,10 +107,10 @@ paths:
         type: string
       - description: infomation message satellite
         in: body
-        name: satellite
+        name: infoSatellite
         required: true
         schema:
-          $ref: '#/definitions/models.Satellite'
+          $ref: '#/definitions/models.InfoSatellite'
       produces:
       - application/json
       responses:

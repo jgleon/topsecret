@@ -20,17 +20,20 @@ import (
 // @Accept  json
 // @Produce  json
 // @Param satellite_name path string true "satellite name"
-// @Param satellite body models.Satellite true "infomation message satellite"
+// @Param infoSatellite body models.InfoSatellite true "infomation message satellite"
 // @Success 202 {string} string ""
 // @Failure 404
 // @Router /topsecret_split/{satellite_name} [post]
 func AddTopSecretSplit(w http.ResponseWriter, req *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	params := mux.Vars(req)
-	var satellite models.Satellite
-	var satellities []models.Satellite
-	_ = json.NewDecoder(req.Body).Decode(&satellite)
+	var infoSatellite models.InfoSatellite
+	satellite := models.Satellite{}
+	satellities := []models.Satellite{}
+	_ = json.NewDecoder(req.Body).Decode(&infoSatellite)
 
+	satellite.Distance = infoSatellite.Distance
+	satellite.Message = infoSatellite.Message
 	satellite.Name = strings.ToLower(params["satellite_name"])
 
 	if !helper.ValidateSatelliteNames(append(satellities, satellite)) {
