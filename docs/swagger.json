@@ -1,0 +1,173 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Manage satellite messages and calculate the location of the spacecraft",
+        "title": "Secret positioning API",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "API Support",
+            "email": "soberkoder@swagger.io"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:3000",
+    "basePath": "/",
+    "paths": {
+        "/topsecret": {
+            "post": {
+                "description": "Determine the location of the spacecraft using the data sent",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "topsecret"
+                ],
+                "summary": "Determine the location of the spaceship",
+                "parameters": [
+                    {
+                        "description": "information messages from satellites",
+                        "name": "satellites",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Satellites"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Location"
+                        }
+                    },
+                    "404": {}
+                }
+            }
+        },
+        "/topsecret_split": {
+            "get": {
+                "description": "Determine the location of the spacecraft using the data sent",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "topsecret_split"
+                ],
+                "summary": "Determine the location of the spaceship",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Location"
+                        }
+                    },
+                    "404": {}
+                }
+            }
+        },
+        "/topsecret_split/{satellite_name}": {
+            "post": {
+                "description": "Records a satellite message in memory to calculate the location of the spacecraft later",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "topsecret_split"
+                ],
+                "summary": "Records a satellite message in memory",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "satellite name",
+                        "name": "satellite_name",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "infomation message satellite",
+                        "name": "satellite",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Satellite"
+                        }
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": "Accepted",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {}
+                }
+            }
+        }
+    },
+    "definitions": {
+        "models.Location": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                },
+                "position": {
+                    "type": "object",
+                    "properties": {
+                        "x": {
+                            "type": "number"
+                        },
+                        "y": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "models.Satellite": {
+            "type": "object",
+            "properties": {
+                "Distance": {
+                    "type": "number",
+                    "example": 100
+                },
+                "Message": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "Name": {
+                    "type": "string",
+                    "example": "kenobi"
+                }
+            }
+        },
+        "models.Satellites": {
+            "type": "object",
+            "properties": {
+                "Satellites": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Satellite"
+                    }
+                }
+            }
+        }
+    }
+}
