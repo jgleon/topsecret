@@ -13,7 +13,7 @@ import (
 	httpSwagger "github.com/swaggo/http-swagger"
 )
 
-// @title Secret positioning API
+// @title Localization API
 // @version 1.0
 // @description Manage satellite messages and calculate the location of the spacecraft
 // @termsOfService http://swagger.io/terms/
