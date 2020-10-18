@@ -114,11 +114,11 @@ var doc = `{
                     },
                     {
                         "description": "infomation message satellite",
-                        "name": "satellite",
+                        "name": "infoSatellite",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.Satellite"
+                            "$ref": "#/definitions/models.InfoSatellite"
                         }
                     }
                 ],
@@ -135,6 +135,21 @@ var doc = `{
         }
     },
     "definitions": {
+        "models.InfoSatellite": {
+            "type": "object",
+            "properties": {
+                "Distance": {
+                    "type": "number",
+                    "example": 100
+                },
+                "Message": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
         "models.Location": {
             "type": "object",
             "properties": {
