@@ -217,7 +217,7 @@ var SwaggerInfo = swaggerInfo{
 	Host:        "localhost:3000",
 	BasePath:    "/",
 	Schemes:     []string{},
-	Title:       "Secret positioning API",
+	Title:       "Localization API",
 	Description: "Manage satellite messages and calculate the location of the spacecraft",
 }
 

@@ -2,7 +2,7 @@
     "swagger": "2.0",
     "info": {
         "description": "Manage satellite messages and calculate the location of the spacecraft",
-        "title": "Secret positioning API",
+        "title": "Localization API",
         "termsOfService": "http://swagger.io/terms/",
         "contact": {
             "name": "API Support",

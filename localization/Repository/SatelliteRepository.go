@@ -3,7 +3,7 @@ package repository
 import (
 	"sync"
 
-	models "github.com/jgleon/topsecret/Models"
+	models "github.com/jgleon/topsecret/localization/Models"
 )
 
 var (
