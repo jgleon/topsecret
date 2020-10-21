@@ -4,7 +4,7 @@ import (
 	"strings"
 
 	configuration "github.com/jgleon/topsecret/Configuration"
-	models "github.com/jgleon/topsecret/Models"
+	models "github.com/jgleon/topsecret/localization/Models"
 )
 
 func ValidateSatelliteNames(satellites []models.Satellite) bool {

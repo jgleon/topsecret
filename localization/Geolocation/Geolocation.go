@@ -8,7 +8,19 @@ import (
 	configuration "github.com/jgleon/topsecret/Configuration"
 )
 
-func GetLocation(distances []float32) (x, y float32) {
+type IGetLocationFunc interface {
+	GetLocation(distances []float32) (x, y float32)
+	GetMessage(messages [][]string) (message string)
+}
+
+type GetLocationFunc struct {
+}
+
+func NewGetLocation() IGetLocationFunc {
+	return &GetLocationFunc{}
+}
+
+func (loc *GetLocationFunc) GetLocation(distances []float32) (x, y float32) {
 	var _x float32 = float32(0)
 	var _y float32 = float32(0)
 
@@ -47,7 +59,7 @@ func GetLocation(distances []float32) (x, y float32) {
 	return _x, _y
 }
 
-func GetMessage(messages [][]string) (message string) {
+func (loc *GetLocationFunc) GetMessage(messages [][]string) (message string) {
 	var _message string = ""
 
 	if len(messages) > 2 {

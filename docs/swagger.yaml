@@ -52,7 +52,7 @@ info:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   termsOfService: http://swagger.io/terms/
-  title: Secret positioning API
+  title: Localization API
   version: "1.0"
 paths:
   /topsecret:

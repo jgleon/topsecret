@@ -1,4 +1,4 @@
-package controller
+package topsecret_split
 
 import (
 	"encoding/json"
@@ -7,11 +7,21 @@ import (
 
 	"github.com/gorilla/mux"
 
-	helper "github.com/jgleon/topsecret/Helper"
-	models "github.com/jgleon/topsecret/Models"
-	repository "github.com/jgleon/topsecret/Repository"
-	services "github.com/jgleon/topsecret/Services"
+	helper "github.com/jgleon/topsecret/localization/Helper"
+	models "github.com/jgleon/topsecret/localization/Models"
+	repository "github.com/jgleon/topsecret/localization/Repository"
+	services "github.com/jgleon/topsecret/localization/Services"
 )
+
+type Controller struct {
+	LocalizationService services.IReadLocationServices
+}
+
+func NewTopSecretController() Controller {
+	return Controller{
+		LocalizationService: services.NewLocationService(),
+	}
+}
 
 // AddTopSecretSplit godoc
 // @Summary Records a satellite message in memory
@@ -24,7 +34,7 @@ import (
 // @Success 202 {string} string ""
 // @Failure 404
 // @Router /topsecret_split/{satellite_name} [post]
-func AddTopSecretSplit(w http.ResponseWriter, req *http.Request) {
+func (contr *Controller) AddTopSecretSplit(w http.ResponseWriter, req *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	params := mux.Vars(req)
 	var infoSatellite models.InfoSatellite
@@ -56,12 +66,12 @@ func AddTopSecretSplit(w http.ResponseWriter, req *http.Request) {
 // @Success 200 {object} models.Location
 // @Failure 404
 // @Router /topsecret_split [get]
-func GetTopSecretSplit(w http.ResponseWriter, req *http.Request) {
+func (contr *Controller) GetTopSecretSplit(w http.ResponseWriter, req *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	repo := repository.GetInstace()
 	satellites := repo.GetSatellites()
 
-	location := services.ReadLocation(satellites)
+	location := contr.LocalizationService.ReadLocation(satellites)
 
 	if location.Message == "" || (location.Position.X == float32(0) && location.Position.Y == float32(0)) {
 		w.WriteHeader(http.StatusNotFound)

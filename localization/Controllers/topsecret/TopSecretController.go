@@ -1,12 +1,22 @@
-package controller
+package topsecret
 
 import (
 	"encoding/json"
 	"net/http"
 
-	models "github.com/jgleon/topsecret/Models"
-	services "github.com/jgleon/topsecret/Services"
+	models "github.com/jgleon/topsecret/localization/Models"
+	services "github.com/jgleon/topsecret/localization/Services"
 )
+
+type Controller struct {
+	LocalizationService services.IReadLocationServices
+}
+
+func NewTopSecretController() Controller {
+	return Controller{
+		LocalizationService: services.NewLocationService(),
+	}
+}
 
 // AddTopSecret godoc
 // @Summary Determine the location of the spaceship
@@ -18,13 +28,13 @@ import (
 // @Success 200 {object} models.Location
 // @Failure 404
 // @Router /topsecret [post]
-func AddTopSecret(w http.ResponseWriter, req *http.Request) {
+func (contr *Controller) AddTopSecret(w http.ResponseWriter, req *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var satellites models.Satellites
 
 	_ = json.NewDecoder(req.Body).Decode(&satellites)
 
-	location := services.ReadLocation(satellites.Satellites)
+	location := contr.LocalizationService.ReadLocation(satellites.Satellites)
 
 	if location.Message == "" || (location.Position.X == float32(0) && location.Position.Y == float32(0)) {
 		w.WriteHeader(http.StatusNotFound)
