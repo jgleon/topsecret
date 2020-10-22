@@ -5,13 +5,15 @@ import (
 	"net/http"
 
 	models "github.com/jgleon/topsecret/localization/Models"
-	services "github.com/jgleon/topsecret/localization/Services"
+	services "github.com/jgleon/topsecret/localization/services"
 )
 
+//Controller contiene los servicios del controller
 type Controller struct {
-	LocalizationService services.IReadLocationServices
+	LocalizationService services.ILocationServices
 }
 
+//NewTopSecretController crea una instancia del controller
 func NewTopSecretController() Controller {
 	return Controller{
 		LocalizationService: services.NewLocationService(),
