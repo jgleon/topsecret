@@ -1,4 +1,4 @@
-package topsecret_split
+package topsecretsplit
 
 import (
 	"encoding/json"
@@ -7,16 +7,16 @@ import (
 
 	"github.com/gorilla/mux"
 
-	helper "github.com/jgleon/topsecret/localization/Helper"
 	models "github.com/jgleon/topsecret/localization/Models"
-	repository "github.com/jgleon/topsecret/localization/Repository"
-	services "github.com/jgleon/topsecret/localization/Services"
+	services "github.com/jgleon/topsecret/localization/services"
 )
 
+//Controller topsecret split
 type Controller struct {
-	LocalizationService services.IReadLocationServices
+	LocalizationService services.ILocationServices
 }
 
+//NewTopSecretController crea una instancia del controller
 func NewTopSecretController() Controller {
 	return Controller{
 		LocalizationService: services.NewLocationService(),
@@ -39,20 +39,19 @@ func (contr *Controller) AddTopSecretSplit(w http.ResponseWriter, req *http.Requ
 	params := mux.Vars(req)
 	var infoSatellite models.InfoSatellite
 	satellite := models.Satellite{}
-	satellities := []models.Satellite{}
+
 	_ = json.NewDecoder(req.Body).Decode(&infoSatellite)
 
 	satellite.Distance = infoSatellite.Distance
 	satellite.Message = infoSatellite.Message
 	satellite.Name = strings.ToLower(params["satellite_name"])
 
-	if !helper.ValidateSatelliteNames(append(satellities, satellite)) {
+	resultSave := contr.LocalizationService.SaveMessage(satellite)
+
+	if !resultSave {
 		w.WriteHeader(http.StatusNotFound)
 		return
 	}
-
-	repo := repository.GetInstace()
-	repo.SetSatellite(satellite)
 
 	w.WriteHeader(http.StatusAccepted)
 }
@@ -68,10 +67,8 @@ func (contr *Controller) AddTopSecretSplit(w http.ResponseWriter, req *http.Requ
 // @Router /topsecret_split [get]
 func (contr *Controller) GetTopSecretSplit(w http.ResponseWriter, req *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	repo := repository.GetInstace()
-	satellites := repo.GetSatellites()
 
-	location := contr.LocalizationService.ReadLocation(satellites)
+	location := contr.LocalizationService.GetSatellites()
 
 	if location.Message == "" || (location.Position.X == float32(0) && location.Position.Y == float32(0)) {
 		w.WriteHeader(http.StatusNotFound)
