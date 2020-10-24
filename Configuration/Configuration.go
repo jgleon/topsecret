@@ -3,7 +3,7 @@ package configuration
 import (
 	"sync"
 
-	models "github.com/jgleon/topsecret/localization/Models"
+	models "github.com/jgleon/topsecret/localization/models"
 	"github.com/tkanos/gonfig"
 )
 

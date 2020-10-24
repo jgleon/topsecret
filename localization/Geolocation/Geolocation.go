@@ -5,7 +5,7 @@ import (
 	"sort"
 	"strings"
 
-	configuration "github.com/jgleon/topsecret/Configuration"
+	configuration "github.com/jgleon/topsecret/configuration"
 )
 
 type IGetLocationFunc interface {

@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 
-	configuration "github.com/jgleon/topsecret/Configuration"
+	configuration "github.com/jgleon/topsecret/configuration"
 	routers "github.com/jgleon/topsecret/localization"
 )
 

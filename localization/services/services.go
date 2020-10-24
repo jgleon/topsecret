@@ -4,10 +4,10 @@ import (
 	"sort"
 	"strings"
 
-	geolocation "github.com/jgleon/topsecret/localization/Geolocation"
-	helper "github.com/jgleon/topsecret/localization/Helper"
-	models "github.com/jgleon/topsecret/localization/Models"
-	repository "github.com/jgleon/topsecret/localization/Repository"
+	geolocation "github.com/jgleon/topsecret/localization/geolocation"
+	helper "github.com/jgleon/topsecret/localization/helper"
+	models "github.com/jgleon/topsecret/localization/models"
+	repository "github.com/jgleon/topsecret/localization/repository"
 )
 
 //ILocationServices interfaz del servicio
