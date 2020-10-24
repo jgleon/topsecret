@@ -3,8 +3,8 @@ package helper
 import (
 	"strings"
 
-	configuration "github.com/jgleon/topsecret/Configuration"
-	models "github.com/jgleon/topsecret/localization/Models"
+	configuration "github.com/jgleon/topsecret/configuration"
+	models "github.com/jgleon/topsecret/localization/models"
 )
 
 //IHelperFunction interfaz para funciones del helper

@@ -7,7 +7,7 @@ import (
 
 	"github.com/gorilla/mux"
 
-	models "github.com/jgleon/topsecret/localization/Models"
+	models "github.com/jgleon/topsecret/localization/models"
 	services "github.com/jgleon/topsecret/localization/services"
 )
 
@@ -17,9 +17,9 @@ type Controller struct {
 }
 
 //NewTopSecretController crea una instancia del controller
-func NewTopSecretController() Controller {
+func NewTopSecretController(service services.ILocationServices) Controller {
 	return Controller{
-		LocalizationService: services.NewLocationService(),
+		LocalizationService: service,
 	}
 }
 
