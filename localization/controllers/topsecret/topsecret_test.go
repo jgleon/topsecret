@@ -1,44 +1,45 @@
 package topsecret
 
-// import (
-// 	"fmt"
-// 	"net/http"
-// 	"testing"
+import (
+	"bytes"
+	"encoding/json"
+	"net/http"
+	"net/http/httptest"
+	"testing"
 
-// 	"github.com/gorilla/mux"
-// 	models "github.com/jgleon/topsecret/localization/models"
-// 	"github.com/stretchr/testify/assert"
-// )
+	"github.com/gorilla/mux"
+	configuration "github.com/jgleon/topsecret/configuration"
+	models "github.com/jgleon/topsecret/localization/models"
+	services "github.com/jgleon/topsecret/localization/services"
+	"github.com/stretchr/testify/assert"
+)
 
-// var Router *mux.Router
+func Router() *mux.Router {
+	app := configuration.GetInstace()
+	_ = app.GetConfiguration()
 
-// type SuiteTopSecretController struct {
-// 	topSecretServiceMock *ServiceMock
-// 	controller           Controller
-// }
+	router := mux.NewRouter()
+	ctrl := NewTopSecretController(services.NewLocationService())
+	router.HandleFunc("/topsecret", ctrl.AddTopSecret)
+	return router
+}
 
-// func TestTopSecret(t *testing.T) {
-// 	topSecretServiceMock := &ServiceMock{}
-// 	controller := Controller{TopSecretService: topSecretServiceMock}
-// 	topSecretServiceMock.readLocation = func(satellites *[]models.Satellite) (location *models.Location) {
-// 		location = &models.Location{
-// 			Message: "Esto es un mensaje secreto",
-// 		}
-// 		location.Position.X = 274.7016
-// 		location.Position.Y = 188.58919
-// 		return location
-// 	}
+func TestCalculateLocation(t *testing.T) {
+	payload, _ := json.Marshal(getBodyMock())
 
-// 	responseRecorder, context := createTestContextAndRecorder(http.MethodPost, "/topsecret", getBodyMock())
-// 	// nuevo router
-// 	controller.AddTopSecret(context)
-// 	response := responseRecorder.Result()
-// 	bodyString := getStringBody(response)
+	req, _ := http.NewRequest("POST", "/topsecret", bytes.NewBuffer(payload))
+	req.Header.Set("Content-Type", "application/json")
 
-// 	assert.Equal(t, http.StatusOK, response.StatusCode)
-// 	assert.Equal(t, expectedCreateUserBody(), bodyString)
-// }
+	rr := httptest.NewRecorder()
+	Router().ServeHTTP(rr, req)
 
-// func expectedCreateUserBody() string {
-// 	return fmt.Sprintf(`{"Position":{"x":274.7016,"y":188.58919},"message": "Esto es un mensaje secreto"}`)
-// }
+	result := &models.Location{}
+	json.Unmarshal(rr.Body.Bytes(), &result)
+
+	expected := expectedCreateUserBody()
+
+	assert.Equal(t, http.StatusOK, rr.Code)
+	assert.Equal(t, expected.Message, result.Message)
+	assert.Equal(t, expected.Position.X, result.Position.X)
+	assert.Equal(t, expected.Position.Y, result.Position.Y)
+}
