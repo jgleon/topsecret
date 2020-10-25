@@ -29,7 +29,7 @@ func getBodyMock() models.Satellites {
 
 }
 
-func expectedCreateUserBody() models.Location {
+func expectedGetLocationBody() models.Location {
 	expected := models.Location{}
 	expected.Message = "Esto es un mensaje secreto"
 	expected.Position.X = 275.18063
