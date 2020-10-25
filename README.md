@@ -10,4 +10,4 @@ Api desarrollada en Go 1.15.2 que permite encontrar una posición X,Y de acuerdo
 
 Para encontrar la ubicación x, y se utilizó el algoritmo de trilateración.
 
-![trilateración](resources/trilateration.png?raw=true)
+![trilateración](resource/trilateration-diagram.png?raw=true)
